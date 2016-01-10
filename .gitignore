@@ -3,3 +3,8 @@
 bin/
 lib/
 lib64
+share/
+app/migrations/versions/*
+app/blog.db
+app/blog.db
+app/migrations/*

@@ -6,7 +6,7 @@ import urllib
 import hashlib
 
 def slugify(s):
-    return re.sub('[^\w]+', '-', s).lower()
+    return re.sub( str('[^\w]+'), str('-'), str(s) ).lower()
     
 entry_tags = db.Table( 'entry_tags'
                      ,  db.Column('tag_id'  , db.Integer, db.ForeignKey('tag.id'))
@@ -63,15 +63,15 @@ class Tag(db.Model):
         return '<Tag %s>' % self.name
         
 class User(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(64), unique=True)
-    password_hash = db.Column(db.String(255))
-    name = db.Column(db.String(64))
-    slug = db.Column(db.String(64), unique=True)
-    active = db.Column(db.Boolean, default=True)
-    created_timestamp = db.Column(db.DateTime, default=datetime.datetime.now)
-    entries = db.relationship('Entry', backref='author', lazy='dynamic')
-    #admin = db.Column(db.Boolean, default=False)
+    id                = db.Column(db.Integer     , primary_key=True)
+    email             = db.Column(db.String(64)  , unique=True)
+    password_hash     = db.Column(db.String(255))
+    name              = db.Column(db.String(64))
+    slug              = db.Column(db.String(64)  , unique=True)
+    active            = db.Column(db.Boolean     , default=True)
+    created_timestamp = db.Column(db.DateTime    , default=datetime.datetime.now)
+    admin             = db.Column(db.Boolean     , default=False)
+    entries           = db.relationship('Entry'  , backref='author', lazy='dynamic')
     
     def is_admin(self):
         return True
@@ -86,7 +86,7 @@ class User(db.Model):
             
     # Flask-Login interface..
     def get_id(self):
-        return unicode(self.id)
+        return str(self.id)
     
     def is_authenticated(self):
         return True
@@ -125,27 +125,26 @@ def _user_loader(user_id):
 
 class Comment(db.Model):
     STATUS_PENDING_MODERATION = 0
-    STATUS_PUBLIC = 1
-    STATUS_SPAM = 8
-    STATUS_DELETED = 9
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(64))
-    email = db.Column(db.String(64))
-    url = db.Column(db.String(100))
-    ip_address = db.Column(db.String(64))
-    body = db.Column(db.Text)
-    status = db.Column(db.SmallInteger, default=STATUS_PUBLIC)
-    created_timestamp = db.Column(db.DateTime, default=datetime.
-    datetime.now)
-    entry_id = db.Column(db.Integer, db.ForeignKey('entry.id'))
+    STATUS_PUBLIC             = 1
+    STATUS_SPAM               = 8
+    STATUS_DELETED            = 9
+    id                = db.Column(db.Integer, primary_key=True)
+    name              = db.Column(db.String(64))
+    email             = db.Column(db.String(64))
+    url               = db.Column(db.String(100))
+    ip_address        = db.Column(db.String(64))
+    body              = db.Column(db.Text)
+    status            = db.Column(db.SmallInteger, default=STATUS_PUBLIC)
+    created_timestamp = db.Column(db.DateTime    , default=datetime.datetime.now)
+    entry_id          = db.Column(db.Integer, db.ForeignKey('entry.id'))
     
     def __repr__(self):
         return '<Comment from %r>' % (self.name,)
         
     def gravatar(self, size=75):
-        return 'http://www.gravatar.com/avatar.php?%s' % urllib.urlencode({
-        'gravatar_id': hashlib.md5(self.email).hexdigest(),
-        'size': str(size)})
+        return 'http://www.gravatar.com/avatar.php?%s' \
+             % urllib.parse.urlencode({'gravatar_id' : hashlib.md5( self.email.encode('utf-8') ).hexdigest() \
+                                      ,'size'        : size})
 
 class Snippet(db.Model):
     STATUS_PUBLIC = 0
