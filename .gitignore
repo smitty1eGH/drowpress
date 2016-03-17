@@ -8,3 +8,5 @@ app/migrations/versions/*
 app/blog.db
 app/blog.db
 app/migrations/*
+/blog.db
+/drowpress_load.sqlite
