@@ -11,9 +11,9 @@ from   flask                 import request, url_for
 from   werkzeug.contrib.atom import AtomFeed
 from   models                import Entry
 
-from entries.blueprint import entries
+from entries.blueprint       import entries
 app.register_blueprint(entries,  url_prefix='/entries')
-from snippets.blueprint import snippets
+from snippets.blueprint      import snippets
 app.register_blueprint(snippets, url_prefix='/snippets')
 
 

@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 
-from flask import Flask, g
-from flask.ext.login import LoginManager, current_user
-from config import Configuration
+from flask             import Flask, g
+from flask.ext.login   import LoginManager, current_user
+from config            import Configuration
 
-from flask.ext.bcrypt import Bcrypt
+from flask.ext.bcrypt  import Bcrypt
 from flask.ext.migrate import Migrate, MigrateCommand
-from flask.ext.script import Manager
+from flask.ext.script  import Manager
 
 from flask.ext.sqlalchemy import SQLAlchemy
 
