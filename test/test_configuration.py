@@ -1,9 +1,5 @@
 # -*- coding: utf-8 -*-
 
-import os
-import sys
-sys.path.append('/home/smitty/proj/drowpress/app')
-
 import unittest
 from   flask    import request
 from   app      import app
